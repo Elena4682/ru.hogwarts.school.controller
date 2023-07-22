@@ -1,8 +1,15 @@
 package ru.hogwarts.school.model;
 
-import java.util.Objects;
+import nonapi.io.github.classgraph.json.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import java.util.Objects;
+@Entity
 public class Student {
+    @javax.persistence.Id
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private int age;
@@ -10,6 +17,10 @@ public class Student {
         this.id=id;
         this.name=name;
         this.age=age;
+    }
+
+    public Student() {
+
     }
 
     public Long getId() {
