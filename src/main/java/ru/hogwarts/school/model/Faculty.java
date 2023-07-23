@@ -4,15 +4,21 @@ import nonapi.io.github.classgraph.json.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToMany;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
 public class Faculty {
     @javax.persistence.Id
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String color;
+    @ManyToMany(mappedBy = "faculty")
+    private Set<Student> students;
 
     public Faculty(Long id, String name, String color) {
         this.id = id;
@@ -46,7 +52,17 @@ public class Faculty {
     }
 
     public void setColor(String color) {
+
         this.color = color;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     @Override

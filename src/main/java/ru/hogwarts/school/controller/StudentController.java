@@ -14,10 +14,11 @@ import java.util.Collections;
 public class StudentController {
     private final StudentService studentService;
     public StudentController(StudentService studentService){
+
         this.studentService = studentService;
     }
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudentInfo(@PathVariable Long id){
+    public ResponseEntity<Student> getStudentInfo(@PathVariable long id){
         Student student =studentService.findStudent(id);
         if (student==null){
             return ResponseEntity.notFound().build();
@@ -38,15 +39,17 @@ public class StudentController {
         return ResponseEntity.ok(foundStudent);
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id){
+    public ResponseEntity<Void> deleteStudent(@PathVariable long id){
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
-    @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) int age){
-        if (age > 0){
-            return ResponseEntity.ok(studentService.findByAge(age));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+
+    @GetMapping("/byAgeBetween")
+    public Collection<Student> byAge(@RequestParam int minAge, @RequestParam int maxAge){
+        return studentService.findByAge(minAge,maxAge);
+    }
+    @GetMapping("/by-faculty")
+    public Collection<Student> findStudentByFaculty(@RequestParam long facultyId){
+        return studentService.findStudentsByFaculty(facultyId);
     }
 }

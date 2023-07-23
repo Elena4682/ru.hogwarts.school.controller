@@ -16,10 +16,11 @@ import java.util.Collections;
 public class FacultyController {
     private final FacultyService facultyService;
     public FacultyController(FacultyService facultyService){
+
         this.facultyService = facultyService;
     }
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> getFacultyInfo(@PathVariable Long id){
+    public ResponseEntity<Faculty> getFacultyInfo(@PathVariable long id){
         Faculty faculty =facultyService.findFaculty(id);
         if (faculty==null){
             return ResponseEntity.notFound().build();
@@ -40,7 +41,7 @@ public class FacultyController {
         return ResponseEntity.ok(foundFaculty);
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteFaculty(@PathVariable Long id){
+    public ResponseEntity<Void> deleteFaculty(@PathVariable long id){
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
@@ -50,6 +51,11 @@ public class FacultyController {
             return ResponseEntity.ok(facultyService.findByColor(color));
         }
         return ResponseEntity.ok(Collections.emptyList());
+    }
+    @GetMapping
+
+    public Collection<Student> getStudentByFaculty(@PathVariable long facultyId){
+        return facultyService.getFaculty.getStudents();
     }
 }
 

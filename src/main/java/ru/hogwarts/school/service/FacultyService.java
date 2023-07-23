@@ -1,6 +1,5 @@
 package ru.hogwarts.school.service;
 
-import ch.qos.logback.classic.util.LogbackMDCAdapter;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
@@ -41,9 +40,8 @@ public class FacultyService {
                 })
                 .orElse(false);
     }
-    public Collection<Faculty> findByColor (String color){
-        return Collections.emptyList();
+    public Collection<Faculty> findByColor (String name,String color){
+        return repository.findByColorOrNameIgnoreCase(name,color);
     }
-
 
 }

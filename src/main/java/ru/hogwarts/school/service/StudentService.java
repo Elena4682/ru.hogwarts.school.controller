@@ -41,7 +41,10 @@ public class StudentService {
                 .orElse(false);
 
     }
-    public Collection<Student> findByAge (int age){
-        return Collections.emptyList();
+    public Collection<Student> findByAge (int minAge, int maxAge){
+        return repository.findByAgeBetween(minAge,maxAge);
+    }
+    public Collection<Student> findStudentsByFaculty(long facultyId){
+        return repository.findByFaculty_Id(facultyId);
     }
 }
