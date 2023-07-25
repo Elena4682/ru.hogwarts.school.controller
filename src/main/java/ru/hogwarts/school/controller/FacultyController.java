@@ -46,16 +46,17 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color){
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color,
+                                                             @RequestParam(required = false) String name){
         if (color!= null && !color.isBlank()){
-            return ResponseEntity.ok(facultyService.findByColor(color));
+            return ResponseEntity.ok(facultyService.findByColor(color,name));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
-    @GetMapping
+    @GetMapping("/by-faculty/{facultyId")
 
     public Collection<Student> getStudentByFaculty(@PathVariable long facultyId){
-        return facultyService.getFaculty.getStudents();
+        return facultyService.get(facultyId).getStudents();
     }
 }
 
