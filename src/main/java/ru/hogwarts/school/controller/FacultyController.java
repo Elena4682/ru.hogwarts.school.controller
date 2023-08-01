@@ -16,10 +16,11 @@ import java.util.Collections;
 public class FacultyController {
     private final FacultyService facultyService;
     public FacultyController(FacultyService facultyService){
+
         this.facultyService = facultyService;
     }
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> getFacultyInfo(@PathVariable Long id){
+    public ResponseEntity<Faculty> getFacultyInfo(@PathVariable long id){
         Faculty faculty =facultyService.findFaculty(id);
         if (faculty==null){
             return ResponseEntity.notFound().build();
@@ -40,16 +41,22 @@ public class FacultyController {
         return ResponseEntity.ok(foundFaculty);
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteFaculty(@PathVariable Long id){
+    public ResponseEntity<Void> deleteFaculty(@PathVariable long id){
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color){
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color,
+                                                             @RequestParam(required = false) String name){
         if (color!= null && !color.isBlank()){
-            return ResponseEntity.ok(facultyService.findByColor(color));
+            return ResponseEntity.ok(facultyService.findByColor(color,name));
         }
         return ResponseEntity.ok(Collections.emptyList());
+    }
+    @GetMapping("/by-faculty/{facultyId")
+
+    public Collection<Student> getStudentByFaculty(@PathVariable long facultyId){
+        return facultyService.get(facultyId).getStudents();
     }
 }
 

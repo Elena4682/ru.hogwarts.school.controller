@@ -2,44 +2,50 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.*;
 
 @Service
 public class FacultyService {
-    private final HashMap<Long, Faculty> faculties = new HashMap<>();
-    private long count = 0;
+    private final FacultyRepository repository;
+
+    public FacultyService(FacultyRepository repository) {
+        this.repository = repository;
+    }
 
     public Faculty addFaculty(Faculty faculty) {
-        faculty.setId(count++);
-        faculties.put(faculty.getId(), faculty);
-        return faculty;
+        return repository.save(faculty);
     }
 
     public Faculty findFaculty(long id) {
-        return faculties.get(id);
+        return repository.findById(id).orElse(null);
     }
 
     public Faculty editFaculty(Faculty faculty) {
-        if (!faculties.containsKey(faculty.getId())) {
-            return null;
-        }
-        faculties.put(faculty.getId(),faculty);
-        return faculty;
+        return repository.findById(faculty.getId())
+                .map(dbEntity ->{
+                    dbEntity.setName(faculty.getName());
+                    dbEntity.setColor(faculty.getColor());
+                    repository.save(dbEntity);
+                    return dbEntity;})
+                .orElse(null);
     }
 
-    public Faculty deleteFaculty(long id) {
-        return faculties.remove(id);
+    public boolean deleteFaculty(long id) {
+        return repository.findById(id)
+                .map(entity ->{
+                    repository.delete(entity);
+                    return true;
+                })
+                .orElse(false);
     }
-    public Collection<Faculty> findByColor (String color){
-        ArrayList<Faculty> result = new ArrayList<>();
-        for (Faculty faculty : faculties.values()){
-            if (Objects.equals(faculty.getColor(),color)){
-                result.add(faculty);
-            }
-        }
-        return result;
+    public Collection<Faculty> findByColor (String name,String color){
+        return repository.findByColorOrNameIgnoreCase(name,color);
     }
 
-
+    public Faculty get(long facultyId) {
+        return null;
+    }
 }

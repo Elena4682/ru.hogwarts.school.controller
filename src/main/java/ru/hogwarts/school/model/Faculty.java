@@ -1,15 +1,33 @@
 package ru.hogwarts.school.model;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import nonapi.io.github.classgraph.json.Id;
 
+import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
 public class Faculty {
+    @javax.persistence.Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String color;
-    public Faculty(Long id,String name,String color){
-        this.id=id;
-        this.name=name;
-        this.color=color;
+    @OneToMany(mappedBy = "faculty")
+    @JsonIgnore
+    private Set<Student> students;
+
+    public Faculty(Long id, String name, String color) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
+
+    }
+
+    public Faculty() {
+
     }
 
     public Long getId() {
@@ -33,7 +51,17 @@ public class Faculty {
     }
 
     public void setColor(String color) {
+
         this.color = color;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     @Override
@@ -58,3 +86,5 @@ public class Faculty {
                 '}';
     }
 }
+
+
