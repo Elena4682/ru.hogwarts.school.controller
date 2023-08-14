@@ -27,7 +27,7 @@ public class AvatarService {
         this.avatarDir=avatarDir;
     }
     public void upload(long studentId, MultipartFile file) throws IOException {
-        var student = StudentRepository
+        var student = studentRepository
                 .findById(studentId)
                 .orElseThrow(StudentNotFoundException::new);
 

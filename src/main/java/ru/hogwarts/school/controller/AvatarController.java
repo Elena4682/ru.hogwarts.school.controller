@@ -16,7 +16,7 @@ import java.util.List;
 
 @RequestMapping("/avatar")
 @RestController
-public class AvatarController<Avatar> {
+public class AvatarController {
     private final AvatarService service;
 
     public AvatarController(AvatarService service){
