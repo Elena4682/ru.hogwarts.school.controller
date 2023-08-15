@@ -21,7 +21,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,7 +66,7 @@ public class StudentWebMvcTest {
         when(studentRepository.save(any(Student.class))).thenReturn(student);
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
 
-        mockMvc.perform((MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                 .post("/student")
                 .content(studentObject.toString())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -74,14 +74,14 @@ public class StudentWebMvcTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.age").value(age)));
+                .andExpect(jsonPath("$.age").value(age));
 
-        mockMvc.perform((MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                 .get("/student/" + id)
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.age").value(age))));
+                .andExpect(jsonPath("$.age").value(age));
     }
 }

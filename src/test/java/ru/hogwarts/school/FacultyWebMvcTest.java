@@ -23,7 +23,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -68,7 +68,7 @@ public class FacultyWebMvcTest {
         when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty);
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
 
-        mockMvc.perform((MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                 .post("/faculty")
                 .content(facultyObject.toString())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -76,14 +76,14 @@ public class FacultyWebMvcTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.color").value(color)));
+                .andExpect(jsonPath("$.color").value(color));
 
-        mockMvc.perform((MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                 .get("/faculty/" + id)
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.color").value(color))));
+                .andExpect(jsonPath("$.color").value(color));
     }
 }
