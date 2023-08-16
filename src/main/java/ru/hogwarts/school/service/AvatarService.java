@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.exception.StudentNotFoundException;
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @Service
 public class AvatarService {
@@ -25,7 +27,7 @@ public class AvatarService {
         this.avatarDir=avatarDir;
     }
     public void upload(long studentId, MultipartFile file) throws IOException {
-        var student = StudentRepository
+        var student = studentRepository
                 .findById(studentId)
                 .orElseThrow(StudentNotFoundException::new);
 
@@ -52,5 +54,9 @@ public class AvatarService {
     }
     public  Avatar findAvatar(long studentId){
         return avatarRepository.findByStudentId(studentId).orElse(null);
+    }
+    public List<Avatar> getAvatarPage(int pageNumber,int pageSize){
+        var request = PageRequest.of(pageNumber-1,pageSize);
+        return avatarRepository.findAll(request).getContent();
     }
 }
