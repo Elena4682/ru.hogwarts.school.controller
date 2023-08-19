@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class AvatarService {
+    private final static Logger logger = (Logger) LoggerFactory.getLogger(StudentService.class);
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
     private final String avatarDir;
@@ -33,11 +36,13 @@ public class AvatarService {
 
         var path = Path.of(avatarDir);
         if (!path.toFile().exists()){
+            logger.info("Creating directory {}",)avatarDir;
             Files.createDirectories(path);
         }
         var dotIndex = file.getOriginalFilename().lastIndexOf(".");
         var ext = file.getOriginalFilename().substring(dotIndex + 1);
         var filePath = avatarDir + "/" + student.getId() + "_"  + student.getName() + "." + ext;
+        logger.info(" Avatar filename is {} for student id: {}",filePath,student.getId());
 
         try (var in = file.getInputStream();
              var out = new FileOutputStream(filePath)){
