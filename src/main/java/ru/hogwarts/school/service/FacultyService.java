@@ -8,6 +8,7 @@ import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -54,5 +55,18 @@ public class FacultyService {
 
     public Faculty get(long facultyId) {
         return null;
+    }
+    public String longestName(){
+        return repository.findAll()
+                .stream()
+                .map(Faculty::getName)
+                .max(Comparator.naturalOrder())
+                .orElse(null);
+    }
+    public void returnInteger(){
+        System.currentTimeMillis();
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b );
     }
 }
