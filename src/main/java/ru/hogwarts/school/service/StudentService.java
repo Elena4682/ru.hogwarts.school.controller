@@ -82,4 +82,37 @@ public class StudentService {
                 .average()
                 .orElse(0d);
     }
+    public void pintUnSync(){
+        var students = repository.findAll();
+        System.out.println(students.get(0));
+        System.out.println(students.get(1));
+
+        new Thread(() -> {
+            System.out.println(students.get(2));
+            System.out.println(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(students.get(4));
+            System.out.println(students.get(5));
+        }).start();
+    }
+    public void pintSync(){
+        var students = repository.findAll();
+        System.out.println(students.get(0));
+        System.out.println(students.get(1));
+
+        new Thread(() -> {
+            print(students.get(2));
+            print(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            print(students.get(4));
+            print(students.get(5));
+        }).start();
+    }
+    public synchronized void print(Object o){
+        System.out.println(o.toString());
+    }
 }
