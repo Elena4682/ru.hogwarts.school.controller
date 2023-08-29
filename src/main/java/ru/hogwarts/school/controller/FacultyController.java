@@ -53,10 +53,17 @@ public class FacultyController {
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
-    @GetMapping("/by-faculty/{facultyId")
-
+    @GetMapping("/by-faculty/{facultyId}")
     public Collection<Student> getStudentByFaculty(@PathVariable long facultyId){
         return facultyService.get(facultyId).getStudents();
+    }
+    @GetMapping("/longest-name")
+    public String longestName(){
+        return facultyService.longestName();
+    }
+    @GetMapping("/return-integer")
+    public void returnInteger(){
+        facultyService.returnInteger();
     }
 }
 
