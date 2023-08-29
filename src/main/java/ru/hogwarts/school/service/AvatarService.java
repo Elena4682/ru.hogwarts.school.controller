@@ -1,5 +1,5 @@
 package ru.hogwarts.school.service;
-
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 @Service
 public class AvatarService {
@@ -36,7 +36,8 @@ public class AvatarService {
 
         var path = Path.of(avatarDir);
         if (!path.toFile().exists()){
-            logger.info("Creating directory {}",)avatarDir;
+            String avatarDir1 = avatarDir;
+            logger.info("Creating directory {}", avatarDir);
             Files.createDirectories(path);
         }
         var dotIndex = file.getOriginalFilename().lastIndexOf(".");
